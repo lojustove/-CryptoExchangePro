@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CryptoExchange Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="dark-mode">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>CryptoExchange<span class="logo-pro">Pro</span></span>
+                </div>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userEmail">usuario@email.com</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Dashboard -->
+        <section class="dashboard">
+            <div class="dashboard-grid">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active" onclick="showDepositModal()">
+                            <i class="fas fa-plus-circle"></i> Depositar
+                        </a>
+                        <a href="#" class="nav-item" onclick="showWithdrawModal()">
+                            <i class="fas fa-minus-circle"></i> Retirar
+                        </a>
+                        <a href="#" class="nav-item" onclick="showReferrals()">
+                            <i class="fas fa-users"></i> Referidos
+                        </a>
+                        <a href="#" class="nav-item" onclick="showSettings()">
+                            <i class="fas fa-cog"></i> Ajustes
+                        </a>
+                    </nav>
+                    <div class="referral-card">
+                        <h3><i class="fas fa-gift"></i> Gana 5% Extra</h3>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-bottom: 10px;">Comparte tu código:</p>
+                        <div class="referral-code-box"
+                            style="display: flex; gap: 5px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 5px;">
+                            <code id="referralCode" style="font-size: 1.1rem; color: var(--secondary);">...</code>
+                            <button onclick="copyReferralLink()"
+                                style="background: none; border: none; color: var(--light); cursor: pointer;"><i
+                                    class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="dashboard-content">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Total Invertido</h3>
+                                <div class="stat-value" id="totalInvested">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Ganancias</h3>
+                                <div class="stat-value profit" id="totalEarnings">+$0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Ganancias Ref.</h3>
+                                <div class="stat-value" id="referralEarnings" style="color: #10b981;">+$0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Días Restantes</h3>
+                                <div class="stat-value" id="daysRemaining">40</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-area"></i> Crecimiento de tu Inversión</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="dashboardChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Transactions Section -->
+                    <div class="transactions-card">
+                        <div class="transactions-header">
+                            <h3><i class="fas fa-exchange-alt"></i> Transacciones Recientes</h3>
+                            <button class="view-all" onclick="showAllTransactions()">Ver Todas</button>
+                        </div>
+                        <div class="transactions-list" id="transactionsList">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Cargando transacciones...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings Table -->
+                    <div class="earnings-card">
+                        <h3><i class="fas fa-table"></i> Historial de Ganancias Diarias</h3>
+                        <div class="earnings-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Ganancia</th>
+                                        <th>Porcentaje</th>
+                                        <th>Acumulado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="earningsTable">
+                                    <tr>
+                                        <td colspan="4" class="loading">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <p>Cargando ganancias...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+
+        <!-- Deposit Modal -->
+        <div id="depositModal" class="modal">
+            <div class="modal-content deposit-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-plus-circle"></i> Realizar Depósito</h2>
+                    <button class="close-modal" onclick="closeDepositModal()">&times;</button>
+                </div>
+                <div class="deposit-form">
+                    <div class="form-group">
+                        <label>Selecciona la Criptomoneda</label>
+                        <div class="crypto-selector">
+                            <button class="crypto-option active" data-crypto="btc" onclick="selectCrypto(this)">
+                                <i class="fab fa-bitcoin"></i> Bitcoin
+                            </button>
+                            <button class="crypto-option" data-crypto="eth" onclick="selectCrypto(this)">
+                                <i class="fab fa-ethereum"></i> Ethereum
+                            </button>
+                            <button class="crypto-option" data-crypto="sol" onclick="selectCrypto(this)">
+                                <i class="fas fa-sun"></i> Solana
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="wallet-address" style="margin-bottom: 1.5rem;">
+                        <p><strong>Envía tu depósito a esta dirección:</strong></p>
+                        <div class="address-box">
+                            <code id="cryptoAddress">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</code>
+                            <button class="copy-btn" onclick="copyAddress()">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="depositAmount">Monto a Depositar (USD)</label>
+                        <input type="number" id="depositAmount" min="50" placeholder="Mínimo $50" value="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comprobante de Pago (Captura)</label>
+                        <div
+                            style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px dashed var(--border);">
+                            <input type="file" id="depositProof" accept="image/*" style="width: 100%;">
+                            <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                                <i class="fas fa-info-circle"></i> Sube una captura clara de la transacción.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="deposit-info">
+                        <div class="info-row">
+                            <span>Monto a depositar:</span>
+                            <span id="depositAmountDisplay">$100.00</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Estado:</span>
+                            <span style="color: var(--warning);">Requiere verificación (12-24h)</span>
+                        </div>
+                    </div>
+
+                    <button class="submit-deposit" onclick="confirmDeposit()">
+                        <i class="fas fa-check-circle"></i> Confirmar Depósito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
+```

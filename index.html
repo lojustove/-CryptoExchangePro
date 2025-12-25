@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoExchange Pro | Inversión Inteligente</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="dark-mode">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>CryptoExchange<span class="logo-pro">Pro</span></span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active">Inicio</a>
+                    <a href="#features" class="nav-link">Características</a>
+                    <a href="#invest" class="nav-link">Invertir</a>
+                    <a href="#contact" class="nav-link">Contacto</a>
+                </div>
+                <button class="auth-btn" onclick="showAuthModal()">
+                    <i class="fas fa-user"></i> Iniciar Sesión
+                </button>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in">
+                    <span class="gradient-text">Rendimientos Extraordinarios</span>
+                    <br>en Criptomonedas
+                </h1>
+                <p class="hero-subtitle animate-fade-in-delay">
+                    Invierte en BTC, ETH o SOL y obtén hasta <span class="highlight">200% de retorno</span> en 40 días.
+                    Tecnología de trading algorítmico exclusiva.
+                </p>
+                <div class="hero-stats animate-slide-up">
+                    <div class="stat">
+                        <div class="stat-value">+200%</div>
+                        <div class="stat-label">Rendimiento Máximo</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">40 días</div>
+                        <div class="stat-label">Período de Inversión</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100% Seguro</div>
+                        <div class="stat-label">Fondos Protegidos</div>
+                    </div>
+                </div>
+                <button class="cta-button animate-pulse" onclick="showAuthModal('register')">
+                    <i class="fas fa-rocket"></i> Comenzar Ahora
+                </button>
+            </div>
+            <div class="hero-graph">
+                <div class="graph-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <h2 class="section-title">¿Por qué Elegirnos?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Seguridad Bancaria</h3>
+                    <p>Tecnología de encriptación militar y fondos asegurados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Algoritmo Propietario</h3>
+                    <p>IA que maximiza rendimientos en mercados volátiles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3>Total Anonimato</h3>
+                    <p>Sin KYC, sin límites, privacidad garantizada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Retiros Instantáneos</h3>
+                    <p>Disponibles después del período de bloqueo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Calculator -->
+        <section id="invest" class="calculator-section">
+            <h2 class="section-title">Calcula Tus Ganancias</h2>
+            <div class="calculator">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label>Moneda a Invertir</label>
+                        <div class="crypto-selector">
+                            <button class="crypto-option active" data-crypto="btc">
+                                <i class="fab fa-bitcoin"></i> Bitcoin
+                            </button>
+                            <button class="crypto-option" data-crypto="eth">
+                                <i class="fab fa-ethereum"></i> Ethereum
+                            </button>
+                            <button class="crypto-option" data-crypto="sol">
+                                <i class="fas fa-sun"></i> Solana
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Monto a Invertir (USD)</label>
+                        <input type="range" id="amountSlider" min="10" max="100000" value="1000" step="10">
+                        <div class="amount-display">
+                            <span id="amountValue">$1,000</span>
+                            <input type="number" id="amountInput" value="1000" min="10">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Período: <span id="daysValue">40 días</span></label>
+                        <input type="range" id="daysSlider" min="1" max="40" value="40">
+                    </div>
+                </div>
+                <div class="calculator-results">
+                    <div class="result-card">
+                        <div class="result-title">Tu Inversión</div>
+                        <div class="result-value" id="initialInvestment">$1,000</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-title">Ganancias Estimadas</div>
+                        <div class="result-value profit" id="estimatedEarnings">+$1,000</div>
+                    </div>
+                    <div class="result-card total">
+                        <div class="result-title">Total Final</div>
+                        <div class="result-value" id="totalAmount">$2,000</div>
+                    </div>
+                    <button class="invest-button" onclick="showAuthModal('register')">
+                        <i class="fas fa-lock"></i> Invertir Ahora
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Crypto Prices -->
+        <section class="crypto-prices">
+            <h2 class="section-title">Precios en Tiempo Real</h2>
+            <div class="prices-grid">
+                <div class="price-card btc">
+                    <div class="price-header">
+                        <i class="fab fa-bitcoin"></i>
+                        <div>
+                            <h3>Bitcoin</h3>
+                            <span class="price-symbol">BTC</span>
+                        </div>
+                    </div>
+                    <div class="price-value" id="btcPrice">$34,567.89</div>
+                    <div class="price-change positive" id="btcChange">+2.34%</div>
+                </div>
+                <div class="price-card eth">
+                    <div class="price-header">
+                        <i class="fab fa-ethereum"></i>
+                        <div>
+                            <h3>Ethereum</h3>
+                            <span class="price-symbol">ETH</span>
+                        </div>
+                    </div>
+                    <div class="price-value" id="ethPrice">$2,345.67</div>
+                    <div class="price-change positive" id="ethChange">+1.89%</div>
+                </div>
+                <div class="price-card sol">
+                    <div class="price-header">
+                        <i class="fas fa-sun"></i>
+                        <div>
+                            <h3>Solana</h3>
+                            <span class="price-symbol">SOL</span>
+                        </div>
+                    </div>
+                    <div class="price-value" id="solPrice">$123.45</div>
+                    <div class="price-change negative" id="solChange">-0.56%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth Modal -->
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Iniciar Sesión</h2>
+                    <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('login')">Iniciar Sesión</button>
+                    <button class="tab" onclick="switchTab('register')">Registrarse</button>
+                </div>
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" required placeholder="••••••••">
+                    </div>
+                    <div id="referralGroup" class="form-group" style="display: none;">
+                        <label for="referral">Código de Referido (Opcional)</label>
+                        <input type="text" id="referral" placeholder="Código de amigo">
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span id="submitText">Iniciar Sesión</span>
+                        <div class="spinner" id="authSpinner"></div>
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p id="switchText">¿No tienes cuenta? <a href="#" onclick="switchTab('register')">Regístrate</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

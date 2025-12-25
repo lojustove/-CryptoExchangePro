@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | CryptoExchange Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tx-card {
+            background: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .tx-info h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .tx-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            background: #000;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-approve {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90vh;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div class="admin-container">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>Panel de Administración</h1>
+            <button onclick="logout()" class="logout-btn">Salir</button>
+        </header>
+
+        <div id="pendingTransactions">
+            <p>Cargando transacciones pendientes...</p>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" style="display: none; align-items: center; justify-content: center;">
+        <span class="close-modal" onclick="closeImageModal()"
+            style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px;">&times;</span>
+        <img id="fullImage" class="modal-image">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>
